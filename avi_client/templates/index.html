@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Automated Visual Inspection</title>
+		<!--
+		__  ___           ___  __        ___  ___ ___
+		/__`  |  \ / |    |__  /__` |__| |__  |__   |
+		.__/  |   |  |___ |___ .__/ |  | |___ |___  |
+		-->
+		<!-- Bootstrap Stylesheet -->
+		<link rel="stylesheet" type="text/css" href="../static/lib/bootstrap-3.3.4-dist/css/bootstrap.min.css">
+		<!-- Bootstrap Theme Stylesheet -->
+		<link rel="stylesheet" type="text/css" href="../static/lib/bootstrap-3.3.4-dist/css/bootstrap-theme.min.css">
+		<!-- Page Stylesheet -->
+		<link rel="stylesheet" href="../static/css/index.css">
+		<!--
+		__   __   __     __  ___
+		/__` /  ` |__) | |__)  |
+		.__/ \__, |  \ | |     |
+		-->
+		<!-- jQuery -->
+		<script src="../static/lib/jQuery/jquery-2.1.3.min.js"></script>
+		<!-- Bootstrap JavaScript -->
+		<script src="../static/lib/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+		<script src="../static/lib/bootstrap-3.3.4-dist/js/bootstrap-filestyle.min.js"></script>
+		<!-- D3.js -->
+		<script src="../static/lib/d3-master/d3.min.js"></script>
+		<script src="../static/lib/d3-master/nv.d3.min.js"></script>
+		<!-- Page Script -->
+		<script src="../static/js/avi.js"></script>
+	</head>
+	<body>
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">Automated Visual Inspection</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+
+
+					</div><!--/.nav-collapse -->
+				</div>
+				</nav><!-- close navbar -->
+				<div class="container-fluid site-content">
+					<div class="row">
+						<div class="site-image-gallery col-xs-4">
+							<div class="panel panel-default site-image-gallery-display">
+								<div class="panel-heading">
+                    <p><b>Step 1&nbsp;</b>Choose Image for Analysis</p>
+                    <form action="/upload" method="POST" id="site-image-uploadForm" enctype="multipart/form-data">
+                      <input type="file" class="filestyle site-image-gallery-upload" data-input="false" multiple="multiple" data-buttonText="&nbsp;Upload Image File" id="site-image-gallery-upload" accept="image/*" name="image-file">
+                      <br>
+                      <div class="progress" id="site-image-gallery-progress">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                          <span class="sr-only">45% Complete</span>
+                        </div>
+                      </div>
+                    </form>
+								</div>
+								<div class="panel-body site-image-gallery-display-images">
+								</div>
+							</div>
+						</div>
+						<div class="site-image-inspection col-xs-8">
+							<div class="panel panel-default site-image-inspection-area">
+								<div class="panel-body">
+									<div class="site-image-inspection-selection col-xs-8 text-center">
+										<button class="btn btn-info btn-sm site-image-control-button" id="site-control-toggleMenu"><span class="glyphicon glyphicon-fullscreen"></span>&nbsp;Hide Menu</button>
+										<button class="btn btn-default btn-sm site-image-control-button" id="site-inspection-previousImageButton"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Previous Image</button>
+										<button class="btn btn-default btn-sm site-image-control-button" id="site-inspection-nextImageButton">Next Image&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></button>
+										<button class="btn btn-success btn-sm site-image-control-button" id="analyze-button"><span class="glyphicon glyphicon-hourglass"></span>&nbsp;Analyze</button>
+										<p><b>Step 2&nbsp;</b>Select region of interest and click analyze</p>
+										<div class="col-xs-12">
+											<canvas width="500" height="500" id="image-canvas" data-image-id="{{image_id}}" style="border:1px solid black" class='sr-only'>
+											</canvas>
+											<img src="../static/img/SelectedImageHolder.png" class="img-responsive site-image-inspection-area-currentImage center-block" id="site-image-inspection-currentImagePlaceholder" style="width:500px;height:500px;">
+										</div>
+									</div>
+									<div class="site-image-inspection-statistic col-xs-4">
+										<h3 class="site-removeMargin text-center">Defect Classification</h3>
+										<form action="" class="site-image-inspection-info">
+											<div class="form-group">
+												<label for="fileName">File Name</label>
+												<input type="text" class="form-control" readonly value="" id="site-iamge-inspection-info-fileName">
+
+											</div>
+										</form>
+										<table class="table table-hover table-striped table-responsive" id="defects">
+											<tr>
+												<th class="">Defect Type </th>
+												<th class="">Probability</th>
+											</tr>
+											<tr>
+												<td class="" id="td0"></td>
+												<td class="">
+													<div class="progress">
+														<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="" id="tdProgress0">
+														</div>
+													</div>
+													<span id="tdSpan0"></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="" id="td1"></td>
+												<td class="">
+													<div class="progress">
+														<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="" id="tdProgress1">
+														</div>
+													</div>
+													<span id="tdSpan1"></span>
+												</td>
+											</tr>
+											<tr>
+												<td class="" id="td2"></td>
+												<td class="">
+													<div class="progress">
+														<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="" id="tdProgress2">
+														</div>
+													</div>
+													<span id="tdSpan2"></span>
+												</td>
+											</tr>
+										</table>
+
+										<div class="controls form-inline">
+											<p><b>Step 3&nbsp;</b></p>
+                      <a href="patches" title="">Click here for all approved patches.</a>
+											<label for="feedback">Is the analysis correct?</label> &nbsp;
+											<a class="btn btn-info btn-sm" id="feedback-good"><span class="glyphicon glyphicon-ok"></span></a>
+											<a class="btn btn-danger btn-sm" id="feedback-bad"><span class="glyphicon glyphicon-remove"></span></a>
+										</div>
+
+										<div id="suggest-div" hidden="true">
+											<label for="suggested-defect-type">Your suggestion:</label>
+											<div class="control-group">
+												<select class="form-control" id="suggested-defect-type">
+													{% for defect_type in defect_types %}
+														<option value="{{defect_type}}">{{defect_type}}</option>
+													{% endfor %}
+												</select>
+                        <br>
+												<input class="form-control" type="text" id="custom-type" style="display:none" placeholder="Your suggested type">
+												</div>
+											<hr>
+											<input class="btn btn-sm btn-primary btn-block" type="button" value="Feedback" id="suggest-button"/>
+										</div>
+
+										<br>
+										<div class="alert alert-success alert-dismissible" role="alert" id="feedback-success" hidden="true">Your feedback has been successfully recorded!
+												<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+										</div>
+								</div>
+							</div>
+						</div>
+						</div><!-- close row for main body -->
+						</div><!-- close container-fluid for main body -->
+						<!-- Template Clone Element -->
+						<div class="col-xs-4 text-center" id='site-image-gallery-origin-image' class="sr-only">
+							<img src="" class="img-responsive site-gallery-display-image">
+							<p class="site-image-gallery-fileName">&nbsp;</p>
+						</div>
+					</body>
+				</html>

@@ -1,0 +1,68 @@
+body {
+	background-color: #E5E9EB;
+}
+
+textarea {
+	resize: none;
+}
+
+select {
+	margin: 5px 0 0 0;
+}
+.progress {
+	padding: 0;
+	margin: 0;
+}
+
+.site-removeMargin {
+	margin: 0;
+}
+
+.site-content {
+	margin: 50px 0 0 0;
+}
+#site-subtitle {
+	padding-left: 0;
+	color: #28BB9C;
+}
+.site-image-gallery,
+.site-image-inspection {
+	margin: 15px 0 0 0;
+	height: 88vh;
+}
+
+.site-image-gallery-display {
+	height: 90vh;
+}
+
+.site-image-gallery-display-images {
+	max-height: 80vh;
+	overflow-y: scroll;
+}
+
+.site-image-inspection-area {
+	height: 90vh;
+}
+
+.site-image-inspection-statistic-chart {
+	margin: 50px 0 0 0;
+}
+
+.site-image-inspection-info {
+	margin: 6px 0 0 0;
+}
+
+.site-image-inspection-area-currentImage {
+	max-height: 80vh;
+}
+
+.site-image-inspection-feedback {
+	margin: 10px 0 0 0;
+}
+
+.site-image-control-button {
+	min-width: 100px;
+	max-width: 130px;
+	width: 150px;
+	margin: 0 0 3px 0;
+}
